@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ürün Listesi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .table-wrapper {
+            display: flex;
+        }
+        table {
+            flex: 1;
+        }
+        .actions {
+            margin-left: 4px;
+            display: flex;
+            flex-direction: column;
+        }
+        .actions div {
+            height: 40px; /* Satır yüksekliği ile aynı olmalı */
+            display: flex;
+            align-items: center;
+        }
+        .actions button {
+            margin-bottom: 1px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Eklenen Ürünler</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ürün İsmi</th>
+                    <th>Fiyat (₺)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for urun in urunler %}
+                <tr id="urun-{{ urun[0] }}">
+                    <td>{{ urun[0] }}</td>
+                    <td class="isim">{{ urun[1] }}</td>
+                    <td class="fiyat">{{ urun[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="actions">
+            {% for urun in urunler %}
+            <div>
+                <button class="edit-btn" onclick="duzenle({{ urun[0] }})"><span class="material-icons">edit</span></button>
+                <button class="delete-btn" onclick="sil({{ urun[0] }})"><span class="material-icons">delete</span></button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <a href="{{ url_for('index') }}" class="geri-btn">⬅️ Geri (Ürün Ekle)</a>
+</div>
+
+<script>
+function sil(id){
+    if(confirm("Emin misin?")){
+        fetch('/urun-sil/' + id, {method: 'DELETE'})
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === 'success'){
+                location.reload();
+            }
+        });
+    }
+}
+
+function duzenle(id){
+    const satir = document.getElementById('urun-' + id);
+    const isim = satir.querySelector('.isim').innerText;
+    const fiyat = satir.querySelector('.fiyat').innerText;
+
+    satir.innerHTML = `
+        <td>${id}</td>
+        <td><input type="text" value="${isim}" id="yeni-isim-${id}"></td>
+        <td><input type="number" step="0.01" value="${fiyat}" id="yeni-fiyat-${id}"></td>
+    `;
+
+    const actionDiv = document.querySelector('.actions div:nth-child(' + (satir.rowIndex) + ')');
+    actionDiv.innerHTML = `
+        <button class="save-btn" onclick="kaydet(${id})"><span class="material-icons">check</span></button>
+        <button class="cancel-btn" onclick="iptal(${id},'${isim}',${fiyat})"><span class="material-icons">close</span></button>
+    `;
+}
+
+function kaydet(id){
+    const yeniIsim = document.getElementById('yeni-isim-' + id).value;
+    const yeniFiyat = document.getElementById('yeni-fiyat-' + id).value;
+
+    fetch('/urun-duzenle/' + id, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({isim: yeniIsim, fiyat: yeniFiyat})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === 'success'){
+            location.reload();
+        }
+    });
+}
+
+function iptal(id, isim, fiyat){
+    location.reload();
+}
+</script>
+</body>
+</html>

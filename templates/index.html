@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ürün Yönetici Paneli</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h2>Ürün Yönetici Paneli</h2>
+    <form id="urunForm">
+        <input type="text" id="urunIsmi" placeholder="Ürün İsmi" required>
+        <input type="number" id="urunFiyati" placeholder="Ürün Fiyatı (₺)" step="0.01" required>
+        <button type="submit">Ürün Ekle</button>
+    </form>
+    <div id="mesaj"></div>
+
+    <a href="{{ url_for('urunleri_goster') }}" class="urunlerimiz-btn">Eklenen Ürünleri Göster</a>
+    <a href="{{ url_for('urunlerimiz') }}" class="urunlerimiz-btn">Ürünlerimiz</a>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

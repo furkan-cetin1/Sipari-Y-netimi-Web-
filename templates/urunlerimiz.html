@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ürünlerimiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<div class="main-container">
+    <div class="header">
+        <img src="https://via.placeholder.com/50" class="logo">
+        <span>Çaypınar Et ve Süt Ürünleri</span>
+    </div>
+
+    <div class="products-container">
+        {% for urun in urunler %}
+        <div class="product-card">
+            <div class="badge">BU AYIN YILDIZLARI</div>
+            <img src="https://via.placeholder.com/250">
+            <div class="product-details">
+                <h4>{{ urun[1] }}</h4>
+                <div class="price-status">
+                    <span class="price">₺{{ urun[2] }}</span>
+                    <span class="status"><span class="material-icons">check_circle</span> Stokta var</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button class="order-btn" onclick="siparisVer()">Sipariş Ver</button>
+    <a href="{{ url_for('index') }}" class="geri-btn">⬅️ Geri</a>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script>
+function siparisVer() {
+    alert("Sipariş sayfasına yönlendiriliyorsunuz...");
+}
+</script>
+
+</body>
+</html>
