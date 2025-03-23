@@ -77,7 +77,7 @@ def urunlerimiz():
     conn.close()
 
     return render_template('urunlerimiz.html', urunler=urunler)
-
+#Yusuf dokunuşu
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)
