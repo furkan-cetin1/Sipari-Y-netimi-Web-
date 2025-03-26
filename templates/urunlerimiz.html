@@ -17,7 +17,7 @@
         {% for urun in urunler %}
         <div class="product-card">
             <div class="badge">BU AYIN YILDIZLARI</div>
-            <img src="https://via.placeholder.com/250">
+            <img src="{{ url_for('static', filename='images/urun_' + urun[0]|string + '.jpg') }}" class="product-image">
             <div class="product-details">
                 <h4>{{ urun[1] }}</h4>
                 <div class="price-status">
