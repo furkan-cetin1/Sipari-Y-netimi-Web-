@@ -7,9 +7,17 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+
+<!-- Şeffaf Modern Navigation Bar -->
+<div class="navbar">
+    <a href="{{ url_for('urunlerimiz') }}" class="active">Ürünlerimiz</a>
+    <a href="#">Hakkında</a>
+    <a href="{{ url_for('index') }}">Yönetici Olarak Devam Et</a>
+</div>
+
 <div class="main-container">
     <div class="header">
-        <img src="https://via.placeholder.com/50" class="logo">
+        <img src="{{ url_for('static', filename='images/logo.jpg') }}" class="logo">
         <span>Çaypınar Et ve Süt Ürünleri</span>
     </div>
 
